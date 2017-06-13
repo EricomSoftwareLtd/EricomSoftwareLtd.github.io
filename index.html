@@ -2,8 +2,7 @@
 <html lang="en">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Azure Speed Test - Measure the latenecy to your nearest Microsoft Azure Data Center">
-        <meta name="author" content="Richard Astbury">
+        <meta name="description" content="Shield Speed Test - Measure the latenecy to your nearest Shield system">
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <title>Azure Speed Test</title>
@@ -23,11 +22,11 @@
 
         <div class="container" id="wait" style="margin-top:75px">
             <h2>The speed test is starting...</h2>
-            <p>We are measuring the latency from your web browser to the Blob Storage Service in each of the 19 Microsoft Azure Data Centers...</p>
+            <p>We are measuring the latency from your web browser to the Shield System 100 Data Centers...</p>
         </div>
 
         <div class="container results" style="margin-top:30px;margin-bottom:50px;display:none">
-            <h3>Blob Storage Latency</h3>
+            <h3>Shield Proxy Latency</h3>
             <canvas id="myChart" width="970" height="400"></canvas>
             Latency times are in milliseconds. Lower is better.
 
@@ -39,15 +38,7 @@
                 <div class="col-md-6">
                     <p>It looks like your nearest Data Center is <span style="font-weight:bold" id="dc"></span>. <span id="cdn"></span></p>
                     <p>&nbsp;</p>
-                    <p>Share your results with other people on twitter <span id="twitterbutton"></span></p>
-                    <p>&nbsp;</p>
-                    <p>Compare your speed with others by watching the <a href="https://twitter.com/search?q=%23AzureSpeedTest&src=hash&mode=realtime">#AzureSpeedTest</a> hashtag, or view the results <a href="http://azurespeedtestmaps.azurewebsites.net/">on a map</a>.</p>
-                    <p>&nbsp;</p>
-                    <p><a href="https://github.com/richorama/AzureSpeedTest">Fork</a> on GitHub.</p>
-                    <p>&nbsp;</p>
-                    <p>Created by <a href="https://www.twitter.com/richorama/">@richorama</a> at <a href="https://www.twitter.com/two10degrees/">@two10degrees</a>. Thanks to <a href="https://twitter.com/mickba">Mick Badran</a> for the storage accounts in Australia. Thanks to <a href="https://github.com/ncareau">NMC</a> for the storage accounts in Canada.</p>
-                    <p>&nbsp;</p>
-                    <p><small>The latency times are indicative only, and do not represent the maxium performance achievable from Microsoft Azure. Use this website purely as a tool to gauge which Azure Data Center could be the best for your location.<br/>&copy; Two10degrees 2014</small></p>
+                    <p><small>The latency times are indicative only, and do not represent the maxium performance achievable from Shield. Use this website purely as a tool to gauge which Shield Data Center could be the best for your location.<br/></small></p>
                 </div>
             </div>
         </div>
@@ -61,51 +52,13 @@ var startTime = {};
 var pingHistory = {};
 var label = []
 var locations = {
-    "speedtestwe": "West Europe",
-    "speedtestsea" : "Southeast Asia",
-    "speedtestea": "East Asia",
-    "speedtestnsus": "North Central US",
-    "speedtestne": "North Europe",
-    "speedtestscus": "South Central US",
-    "speedtestwus": "West US",
-    "speedtesteus": "East US",
-    "speedtestjpe": "Japan East",
-    "speedtestjpw": "Japan West",
-    "speedtestbs": "Brazil South",
-    "speedtestcus": "Central US",
-    "speedtesteus2": "East US 2",
-    "mickmel": "Australia Southeast",
-    "micksyd": "Australia East",
-    "speedtestukw": "West UK",
-    "speedtestuks": "South UK",
-    "speedtestcac": "Canada Central",
-    "speedtestcae": "Canada East",
-    "cdn": "Content Delivery Network *"
+    "173.63.228.90": "Ericom US Office"
 };
 
 // colours generated here: http://tools.medialab.sciences-po.fr/iwanthue/
 
 var colours = {
-    "speedtestwe": "#7883c7",
-    "speedtestsea": "#7ce051",
-    "speedtestea": "#7148ce",
-    "speedtestnsus":"#d2ce49",
-    "speedtestne": "#cd58c7",
-    "speedtestscus":"#6dad4a",
-    "speedtestwus": "#57307d",
-    "speedtesteus": "#76dfa6",
-    "speedtestjpe": "#c3487e",
-    "speedtestjpw": "#46692c",
-    "speedtestbs": "#d5493d",
-    "speedtestcus": "#81c1d2",
-    "speedtesteus2": "#d88941",
-    "mickmel": "#432c49",
-    "micksyd": "#cfcc9b",
-    "speedtestukw": "#7b3731",
-    "speedtestuks": "#619780",
-    "speedtestcac": "#cf9aae",
-    "speedtestcae": "#3f4940",
-    "cdn": "#90733c"
+    "173.63.228.90": "#7883c7"
 }
 
 $().ready(function(){
@@ -140,7 +93,7 @@ function run(){
                 });
             } else {
                 $.ajax({
-                    url: "https://" + x + ".blob.core.windows.net/cb.json",
+                    url: "https://" + x + ":3128",
                     dataType: "jsonp",
                     cache: false
                 });
